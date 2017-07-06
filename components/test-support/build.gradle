@@ -1,0 +1,4 @@
+dependencies {
+    compile project(":components:rest-support")
+    compile "junit:junit:4.12"
+}

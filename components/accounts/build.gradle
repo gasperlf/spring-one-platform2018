@@ -1,0 +1,6 @@
+dependencies {
+    compile project(":components:rest-support")
+    compile project(":components:users")
+
+    testCompile project(":components:test-support")
+}

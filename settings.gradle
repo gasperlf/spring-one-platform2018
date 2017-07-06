@@ -1,0 +1,13 @@
+rootProject.name = "pal-tracker-distributed"
+
+include "applications:registration-server"
+include "applications:timesheets-server"
+
+include "components:accounts"
+include "components:projects"
+include "components:timesheets"
+include "components:users"
+
+include "components:rest-support"
+include "components:test-support"
+

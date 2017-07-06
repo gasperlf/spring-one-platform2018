@@ -1,0 +1,31 @@
+### Create user
+POST {{registrationUrl}}/registration
+Content-Type: application/json
+
+{"name": "Sally"}
+
+### Get user
+GET {{registrationUrl}}/users/USER-ID
+
+### Get account
+GET {{registrationUrl}}/accounts?ownerId=USER-ID
+
+### Create project
+POST {{registrationUrl}}/projects
+Content-Type: application/json
+
+{"name": "Basket Weaving III", "accountId": ACCOUNT-ID}
+
+### Get projects
+GET {{registrationUrl}}/projects?accountId=ACCOUNT-ID
+
+### Create timesheet
+POST {{timesheetsUrl}}/time-entries/
+Content-Type: application/json
+
+{"projectId": PROJECT-ID, "userId": USER-ID, "date": "2015-05-17", "hours": 6}
+
+### Get timesheets
+GET {{timesheetsUrl}}/time-entries?userId=USER-ID
+
+###

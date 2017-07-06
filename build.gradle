@@ -1,0 +1,41 @@
+
+buildscript {
+    ext {
+        springBootVersion = "1.5.9.RELEASE"
+        springVersion = "4.3.13.RELEASE"
+        jacksonVersion ="2.9.3"
+    }
+
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
+    }
+}
+
+subprojects {
+    group "io.pivotal.pal.tracker"
+
+    apply plugin: "java"
+    defaultTasks "clean", "build"
+
+    repositories {
+        mavenCentral()
+        jcenter()
+    }
+
+    dependencies {
+        testCompile "junit:junit:4.12"
+        testCompile "org.mockito:mockito-core:2.13.0"
+        testCompile "org.assertj:assertj-core:3.9.0"
+    }
+
+    test {
+        testLogging {
+            exceptionFormat = 'full'
+        }
+    }
+}

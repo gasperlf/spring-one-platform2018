@@ -7,10 +7,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalTime;
 import java.util.List;
 
 import static io.pivotal.pal.tracker.projects.ProjectInfo.projectInfoBuilder;
 import static io.pivotal.pal.tracker.projects.data.ProjectFields.projectFieldsBuilder;
+import static java.lang.Thread.sleep;
 import static java.util.stream.Collectors.toList;
 
 @RestController
@@ -18,9 +20,11 @@ import static java.util.stream.Collectors.toList;
 public class ProjectController {
 
     private final ProjectDataGateway gateway;
+    private LocalTime startupTime;
 
     public ProjectController(ProjectDataGateway gateway) {
         this.gateway = gateway;
+        this.startupTime = LocalTime.now();
     }
 
     @PostMapping
@@ -32,13 +36,20 @@ public class ProjectController {
     @GetMapping
     public List<ProjectInfo> list(@RequestParam long accountId) {
         return gateway.findAllByAccountId(accountId)
-            .stream()
-            .map(this::present)
-            .collect(toList());
+                   .stream()
+                   .map(this::present)
+                   .collect(toList());
     }
 
     @GetMapping("/{projectId}")
-    public ProjectInfo get(@PathVariable long projectId) {
+    public ProjectInfo get(@PathVariable long projectId) throws InterruptedException {
+        if (LocalTime.now().isAfter(this.startupTime.plusSeconds(30))
+                && LocalTime.now().isBefore(this.startupTime.plusSeconds(60))) {
+            sleep(7000);
+        } else if (LocalTime.now().isAfter(startupTime.plusSeconds(60))) {
+            startupTime = LocalTime.now();
+        }
+
         ProjectRecord record = gateway.find(projectId);
 
         if (record != null) {
@@ -51,19 +62,19 @@ public class ProjectController {
 
     private ProjectFields formToFields(ProjectForm form) {
         return projectFieldsBuilder()
-            .accountId(form.accountId)
-            .name(form.name)
-            .active(form.active)
-            .build();
+                   .accountId(form.accountId)
+                   .name(form.name)
+                   .active(form.active)
+                   .build();
     }
 
     private ProjectInfo present(ProjectRecord record) {
         return projectInfoBuilder()
-            .id(record.id)
-            .accountId(record.accountId)
-            .name(record.name)
-            .active(record.active)
-            .info("project info")
-            .build();
+                   .id(record.id)
+                   .accountId(record.accountId)
+                   .name(record.name)
+                   .active(record.active)
+                   .info("project info")
+                   .build();
     }
 }

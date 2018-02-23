@@ -3,6 +3,7 @@ package io.pivotal.pal.tracker.timesheets;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.context.config.annotation.RefreshScope;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.client.RestOperations;
@@ -20,6 +21,7 @@ public class TimesheetsApp {
     }
 
     @Bean
+    @RefreshScope
     ProjectClient projectClient(
         RestOperations restOperations,
         @Value("${registration.server.endpoint}") String registrationEndpoint

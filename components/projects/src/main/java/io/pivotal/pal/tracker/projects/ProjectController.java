@@ -1,5 +1,6 @@
 package io.pivotal.pal.tracker.projects;
 
+import io.pivotal.pal.tracker.instrumentation.latency.InstrumentLatency;
 import io.pivotal.pal.tracker.projects.data.ProjectDataGateway;
 import io.pivotal.pal.tracker.projects.data.ProjectFields;
 import io.pivotal.pal.tracker.projects.data.ProjectRecord;
@@ -12,7 +13,6 @@ import java.util.List;
 
 import static io.pivotal.pal.tracker.projects.ProjectInfo.projectInfoBuilder;
 import static io.pivotal.pal.tracker.projects.data.ProjectFields.projectFieldsBuilder;
-import static java.lang.Thread.sleep;
 import static java.util.stream.Collectors.toList;
 
 @RestController
@@ -41,14 +41,9 @@ public class ProjectController {
                    .collect(toList());
     }
 
+    @InstrumentLatency
     @GetMapping("/{projectId}")
     public ProjectInfo get(@PathVariable long projectId) throws InterruptedException {
-        if (LocalTime.now().isAfter(this.startupTime.plusSeconds(30))
-                && LocalTime.now().isBefore(this.startupTime.plusSeconds(60))) {
-            sleep(7000);
-        } else if (LocalTime.now().isAfter(startupTime.plusSeconds(60))) {
-            startupTime = LocalTime.now();
-        }
 
         ProjectRecord record = gateway.find(projectId);
 

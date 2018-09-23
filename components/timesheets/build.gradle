@@ -1,5 +1,5 @@
 dependencies {
     compile project(":components:rest-support")
-
+    compile "com.netflix.hystrix:hystrix-javanica:1.5.12"
     testCompile project(":components:test-support")
 }

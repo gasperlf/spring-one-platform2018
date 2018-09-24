@@ -2,7 +2,7 @@ rootProject.name = "pal-tracker-distributed"
 
 include "applications:registration-server"
 include "applications:timesheets-server"
-
+include "platform-services:config-server"
 include "components:accounts"
 include "components:projects"
 include "components:timesheets"

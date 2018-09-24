@@ -23,7 +23,7 @@ public class ProjectClient {
     }
 
     @HystrixCommand(commandKey = "ProjectClient",
-                    fallbackMethod = "getProjectFromCache")
+            fallbackMethod = "getProjectFromCache")
     public ProjectInfo getProject(long projectId) {
         ProjectInfo info = restOperations.getForObject(endpoint + "/projects/" + projectId, ProjectInfo.class);
         cache.put(projectId, info);
@@ -32,7 +32,7 @@ public class ProjectClient {
     }
 
     @HystrixCommand(commandKey = "ProjectClientCache",
-                    threadPoolKey = "ProjectClientCache")
+            threadPoolKey = "ProjectClientCache")
     public ProjectInfo getProjectFromCache(long projectId) {
         logger.info("Fell back to using cached project lookup for projectId '{}'", projectId);
         return cache.get(projectId);
